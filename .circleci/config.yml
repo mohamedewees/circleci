@@ -12,7 +12,10 @@ jobs:
       - run: echo World
 
 workflows:
-  jobs:
-    - welcome/run
-    - print_hello
-    - print_world
+  welcome:
+    jobs:
+      - welcome/run
+      - print_hello
+      - print_world:
+        requires:
+          - print_hello
