@@ -17,7 +17,7 @@ jobs:
       - checkout
       - run: 
           command:
-            echo $MY_ENV_VAR
+            echo ${MY_ENV_VAR}
 
 workflows:
   welcome:
