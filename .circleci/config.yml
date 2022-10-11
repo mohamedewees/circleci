@@ -1,28 +1,18 @@
-version: 2.1
+version: 2.2
+
+commands:
+  print_pipeline_id:
+    steps:
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 
 jobs:
-  save_outputs:
+  my_job:
     docker:
       - image: circleci/node:13.8.0
     steps:
-      - run: echo "Hello Mohamed" > ~/output.txt
-      - persist_to_workspace:
-          root: ~/
-          paths:
-            - output.txt
+      - print_pipeline_id
 
-  retrive_outputs:
-    docker:
-      - image: circleci/node:13.8.0
-    steps:
-      - attach_workspace:
-          at: ~/
-      - run: cat ~/output.txt
-
-workflows:
+workflow:
   my_workflow:
-    jobs:
-      - save_outputs
-      - retrive_outputs:
-          requires:
-            - save_outputs
+    steps:
+      - my_job
