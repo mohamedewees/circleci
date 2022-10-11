@@ -14,5 +14,5 @@ jobs:
 
 workflows:
   my_workflow:
-    steps:
+    jobs:
       - my_job
