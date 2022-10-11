@@ -12,7 +12,7 @@ jobs:
     steps:
       - print_pipeline_id
 
-workflow:
+workflows:
   my_workflow:
     steps:
       - my_job
