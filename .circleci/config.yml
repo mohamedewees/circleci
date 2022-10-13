@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   create_infrastructure:
     docker:
-      - image: amazone/aws-cli
+      - image: amazon/aws-cli
     steps:
       - checkout
       - run:
