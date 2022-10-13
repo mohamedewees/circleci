@@ -10,7 +10,23 @@ jobs:
           command:
             aws cloudformation deploy --template-file template.yml --stack-name mystack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
 
+  configure_infrastructure:
+    docker:
+      - image: python:3.7-alpine3.11
+    steps:
+      - checkout
+      - add_ssh_keys:
+          fingerprints: [45:ce:2c:85:66:d3:f9:ee:dc:6f:60:bf:ed:35:cf:ce]
+      - run:
+          name: install ansible
+          command: apk add --update ansible
+      - run:
+          name: run playbook and configure server
+          command: ansible-playbook -i inventory main.yml
+          
+
 workflows:
   mywrokflow1:
     jobs:
       - create_infrastructure
+      - configure_infrastructure
