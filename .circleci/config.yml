@@ -29,4 +29,4 @@ workflows:
   mywrokflow1:
     jobs:
       - create_infrastructure
-      - configure_infrastructure
+      #- configure_infrastructure
