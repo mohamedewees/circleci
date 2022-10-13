@@ -1,4 +1,4 @@
-AWSTemplateVersion: 13-10-2022
+AWSTemplateFormatVersion: 13-10-2022
 Resources:
   EC2Instance:
     Type: 'AWS::EC2::Instance'
