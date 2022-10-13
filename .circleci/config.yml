@@ -1,17 +1,16 @@
 version: 2.1
-
 jobs:
-  my_job:
+  create_infrastructure:
     docker:
-      - image: circleci/node:13.8.0
+      - image: amazone/aws-cli
     steps:
-      - run: exit 1
+      - checkout
       - run:
-          name: on error
-          command: echo "Hello Error!"
-          when: on_fail
+          name: create cloudformation stack
+          command:
+            aws cloudformation deploy --template-file template.yml --stack-name mystack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
 
 workflows:
-  my_workflow:
+  mywrokflow1:
     jobs:
-      - my_job
+      - create_infrastructure
