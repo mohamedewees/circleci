@@ -1,4 +1,7 @@
 version: 2.1
+
+orbs:
+  aws-cli: circleci/aws-cli@2.0.3
 jobs:
   create_infrastructure:
     docker:
@@ -10,19 +13,22 @@ jobs:
           command:
             aws cloudformation deploy --template-file template.yml --stack-name mystack-${CIRCLE_WORKFLOW_ID:0:5} --region us-east-1
 
-  configure_infrastructure:
+  configure_infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
     steps:
-      
+      - checkout
       - add_ssh_keys:
-          fingerprints: ["cf:80:d7:d5:b7:f7:35:ea:61:15:88:4a:4c:28:8c:71"]
+          fingerprints: ["cf:80:d7:d5:b7:f7:35:ea:61:15:88:4a:4c:28:8c:71"] # You can get this ID in the section where you registered the SSH Key
       - run:
-          name: install ansible
-          command: apk add --update ansible
+          name: Install dependencies
+          command: |
+            # install the dependencies needed for your playbook
+            apk add --update ansible 
       - run:
-          name: run playbook and configure server
-          command: ansible-playbook -i inventory main2.yml
+          name: Configure server
+          command: |
+            ansible-playbook -i inventory.txt main2.yml
           
 
 
