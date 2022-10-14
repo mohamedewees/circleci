@@ -26,6 +26,7 @@ jobs:
           command: ansible-playbook -i inventory main2.yml
           
 
+
 workflows:
   mywrokflow1:
     jobs:
