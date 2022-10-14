@@ -1,5 +1,15 @@
 version: 2.1
 
+commands:
+  destroy_environment:
+    steps:
+      - run:
+          name: Destroy environment
+          when: on_fail
+          command: |
+            aws cloudformation delete-stack --stack-name mystack-${CIRCLE_WORKFLOW_ID:0:7}
+
+
 orbs:
   aws-cli: circleci/aws-cli@2.0.3
 jobs:
@@ -36,19 +46,16 @@ jobs:
     steps:
       - run: apk add --update curl
       - run:
-          name: smoke test
-          command: |
-            URL="https://blog.udacity.com/"
-            if curl -s --head ${URL}
-            then
-              return 0
-            else
-              return 1
-            fi
+          name: simulate error
+          command: return 1
+      - destroy_environment
+            
 
 workflows:
   mywrokflow1:
     jobs:
-      #- create_infrastructure
+      - create_infrastructure
       #- configure_infrastructure
-      - smoke_test
+      - smoke_test:
+          requires:
+            - create_infrastructure
